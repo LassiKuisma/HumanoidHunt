@@ -1,5 +1,6 @@
 package humanoidhunt;
 
+import humanoidhunt.puzzle.nanobots.NanobotsPuzzle;
 import humanoidhunt.puzzle.tattoo.TattooPuzzle;
 
 import java.io.IOException;
@@ -12,6 +13,9 @@ public class Launcher {
         try {
             System.out.println("Solution for first puzzle: " +
                     TattooPuzzle.loadInputsAndSolve());
+
+            System.out.println("Solution for second puzzle: " +
+                    NanobotsPuzzle.loadInputAndSolve());
 
         } catch (IOException e) {
             e.printStackTrace();
