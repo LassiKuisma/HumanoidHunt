@@ -14,16 +14,35 @@ public class AndroidPuzzle {
         this.grid = new Grid();
     }
 
-    public static void loadInputsAndSolve() throws IOException {
+    public static String loadInputsAndSolve() throws IOException {
         final String inputFile = "input/android_input.txt";
         var input = FileUtil.readLinesFrom(inputFile);
 
+        var puzzle = new AndroidPuzzle();
+        for (var line : input) {
+            var parsed = parseInput(line);
+            puzzle.applyPath(parsed.a, parsed.b);
+        }
 
+
+        var optStart = puzzle.getGrid().getStartCellPosition();
+        if (optStart.isEmpty()) {
+            throw new IllegalStateException("Can't find start position!");
+        }
+
+        var floodfill = new FloodFill(puzzle.getGrid(), optStart.get());
+        var pathToFinish = floodfill.findPathToFinish();
+
+        StringBuilder sb = new StringBuilder();
+
+        for (var step : pathToFinish) {
+            sb.append(step.toString()).append(",");
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        return sb.toString();
     }
 
     public static Tuple<Position, Step[]> parseInput(String line) {
-        var split = line.split(" ");
-
         var strPos = line.split(" ")[0].split(","); // "X,Y U,D,..." -> "X,Y" -> ["X", "Y"]
         final var x = Integer.parseInt(strPos[0]);
         final var y = Integer.parseInt(strPos[1]);
