@@ -8,7 +8,10 @@ import java.io.IOException;
 
 public class AndroidPuzzle {
 
+    private final Grid grid;
+
     public AndroidPuzzle() {
+        this.grid = new Grid();
     }
 
     public static void loadInputsAndSolve() throws IOException {
@@ -46,9 +49,37 @@ public class AndroidPuzzle {
         return new Tuple<>(new Position(x, y), steps);
     }
 
-    public void applyPath(Position start, Step[] steps) {
-
+    public Grid getGrid() {
+        return grid;
     }
 
+    public void applyPath(final Position start, Step[] steps) {
 
+        boolean firstStep = true;
+        Position pos = new Position(start);
+        for (var step : steps) {
+
+            if (firstStep) {
+                firstStep = false;
+                grid.setCellAt(pos, new Cell(Step.TRAIL_START));
+            } else {
+                grid.setCellAt(pos, new Cell(step));
+            }
+
+            switch (step) {
+                case UP:
+                    pos = pos.up();
+                    break;
+                case DOWN:
+                    pos = pos.down();
+                    break;
+                case LEFT:
+                    pos = pos.left();
+                    break;
+                case RIGHT:
+                    pos = pos.right();
+                    break;
+            }
+        }
+    }
 }

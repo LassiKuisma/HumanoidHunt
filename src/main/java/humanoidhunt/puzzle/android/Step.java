@@ -11,6 +11,7 @@ public enum Step {
     WALL("X"),
     START("S"),
     FINISH("F"),
+    TRAIL_START("P"),
     EMPTY(" ");
 
     private final String content;
